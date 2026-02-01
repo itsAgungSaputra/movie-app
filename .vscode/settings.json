@@ -1,0 +1,10 @@
+{
+  "tailwindCSS.lint.invalidTailwindDirective": "ignore",
+  "tailwindCSS.lint.recommendedVariantOrder": "ignore",
+  "tailwindCSS.lint.cssConflict": "warning",
+  "tailwindCSS.experimental.classRegex": [],
+  "css.lint.unknownAtRules": "ignore",
+  "editor.quickSuggestions": {
+    "strings": true
+  }
+}
