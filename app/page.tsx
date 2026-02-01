@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { getTrendingMovies } from '@/lib/tmdb';
-import { FeaturedHero } from '@/components/features/FeaturedHero';
+import { HeroCarousel } from '@/components/features';
 import { HorizontalCardsSkeleton } from '@/components/ui';
 
 // Client components for home sections
@@ -9,13 +9,13 @@ import { HomeContent } from './HomeContent';
 export const revalidate = 3600; // Revalidate every hour
 
 export default async function HomePage() {
-  // Fetch featured movie on server
+  // Fetch trending movies for carousel on server
   const trendingData = await getTrendingMovies('day', 1);
-  const featuredMovie = trendingData.results[0];
+  const heroMovies = trendingData.results.slice(0, 5); // Top 5 for carousel
 
   return (
     <>
-      {featuredMovie && <FeaturedHero movie={featuredMovie} />}
+      {heroMovies.length > 0 && <HeroCarousel movies={heroMovies} />}
       
       <div className="container mx-auto px-4">
         <Suspense fallback={<HomePageSkeleton />}>

@@ -55,6 +55,33 @@ body {
   min-height: 100vh;
 }
 
+/* GPU acceleration for smooth animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimized transition for carousel elements */
+.carousel-slide {
+  will-change: opacity, transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Smooth transition timing functions */
+.ease-smooth {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ease-spring {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ease-out-expo {
+  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
 /* Glassmorphism utility classes */
 .glass {
   background: var(--glass-bg);
@@ -70,13 +97,17 @@ body {
   border: 1px solid var(--card-border);
 }
 
-/* Modern card hover effect */
+/* Modern card hover effect with GPU acceleration */
 .card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
 }
 
 .card-hover:hover {
-  transform: translateY(-8px) scale(1.02);
+  transform: translateY(-8px) scale(1.02) translateZ(0);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
               0 0 0 1px rgba(255, 255, 255, 0.1);
 }
@@ -177,5 +208,65 @@ img {
 /* Container with max-width for content readability */
 .container {
   max-width: 1400px;
+}
+
+/* Carousel progress animation - GPU optimized */
+@keyframes progress {
+  0% { 
+    transform: scaleX(0) translateZ(0); 
+  }
+  100% { 
+    transform: scaleX(1) translateZ(0); 
+  }
+}
+
+.animate-progress {
+  animation: progress linear forwards;
+  transform-origin: left;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Carousel slide transitions - GPU optimized */
+@keyframes slideInFromRight {
+  0% { 
+    opacity: 0;
+    transform: translate3d(30px, 0, 0);
+  }
+  100% { 
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideOutToLeft {
+  0% { 
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  100% { 
+    opacity: 0;
+    transform: translate3d(-30px, 0, 0);
+  }
+}
+
+.slide-in {
+  animation: slideInFromRight 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  will-change: opacity, transform;
+}
+
+.slide-out {
+  animation: slideOutToLeft 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  will-change: opacity, transform;
+}
+
+/* Ken Burns effect for carousel backgrounds */
+@keyframes kenBurns {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+.ken-burns {
+  animation: kenBurns 8s ease-out forwards;
 }
 

@@ -1,4 +1,5 @@
 export { FeaturedHero } from './FeaturedHero';
+export { HeroCarousel } from './HeroCarousel';
 export { TrendingMoviesSection } from './TrendingMoviesSection';
 export { PopularMoviesSection } from './PopularMoviesSection';
 export { UpcomingMoviesSection } from './UpcomingMoviesSection';
