@@ -14,11 +14,11 @@ import type {
   SearchParams,
 } from '@/types/tmdb';
 
-const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
-const TMDB_API_KEY = process.env.TMDB_API_KEY;
+const TMDB_BASE_URL = process.env.BASE_URL || 'https://api.themoviedb.org/3';
+const TMDB_ACCESS_TOKEN = process.env.API_READ_ACCESS_TOKEN;
 
-if (!TMDB_API_KEY) {
-  console.warn('Warning: TMDB_API_KEY is not set in environment variables');
+if (!TMDB_ACCESS_TOKEN) {
+  console.warn('Warning: API_READ_ACCESS_TOKEN is not set in environment variables');
 }
 
 class TMDBApiError extends Error {
@@ -37,8 +37,7 @@ async function fetchFromTMDB<T>(
 ): Promise<T> {
   const url = new URL(`${TMDB_BASE_URL}${endpoint}`);
   
-  // Add API key and default language
-  url.searchParams.set('api_key', TMDB_API_KEY || '');
+  // Add default language
   url.searchParams.set('language', 'en-US');
   
   // Add additional params
@@ -49,6 +48,10 @@ async function fetchFromTMDB<T>(
   });
 
   const response = await fetch(url.toString(), {
+    headers: {
+      'Authorization': `Bearer ${TMDB_ACCESS_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
     next: { revalidate: 3600 }, // Cache for 1 hour
   });
 
