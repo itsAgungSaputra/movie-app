@@ -13,6 +13,8 @@ import type {
   DiscoverTVParams,
   SearchParams,
 } from '@/types/tmdb';
+import type { Anime, AnimeDetails, AnimeFilterParams } from '@/types/anime';
+import type { Drakor, DrakorDetails, DrakorFilterParams } from '@/types/drakor';
 
 const TMDB_BASE_URL = process.env.BASE_URL || 'https://api.themoviedb.org/3';
 const TMDB_ACCESS_TOKEN = process.env.API_READ_ACCESS_TOKEN;
@@ -197,6 +199,241 @@ export async function getMovieGenres(): Promise<Genre[]> {
 export async function getTVGenres(): Promise<Genre[]> {
   const response = await fetchFromTMDB<GenresResponse>('/genre/tv/list');
   return response.genres;
+}
+
+// ============================================
+// ANIME ENDPOINTS (Japanese Animation)
+// ============================================
+
+// Get trending anime (Japanese TV shows with animation genre)
+export async function getTrendingAnime(
+  timeWindow: TimeWindow = 'week',
+  page: number = 1
+): Promise<TMDBResponse<Anime>> {
+  // Use discover API with date filter for more reliable trending results
+  const dateOffset = timeWindow === 'day' ? 7 : 30; // Last 7 days for 'day', 30 days for 'week'
+  const dateFrom = new Date(Date.now() - dateOffset * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+  
+  return fetchFromTMDB<TMDBResponse<Anime>>('/discover/tv', {
+    page,
+    with_original_language: 'ja',
+    with_genres: '16', // Animation genre
+    sort_by: 'popularity.desc',
+    'first_air_date.gte': dateFrom,
+  });
+}
+
+// Get popular anime using discover with Japanese language filter
+export async function getPopularAnime(page: number = 1): Promise<TMDBResponse<Anime>> {
+  return fetchFromTMDB<TMDBResponse<Anime>>('/discover/tv', {
+    page,
+    with_original_language: 'ja',
+    with_genres: '16', // Animation genre
+    sort_by: 'popularity.desc',
+  });
+}
+
+// Get top rated anime
+export async function getTopRatedAnime(page: number = 1): Promise<TMDBResponse<Anime>> {
+  return fetchFromTMDB<TMDBResponse<Anime>>('/discover/tv', {
+    page,
+    with_original_language: 'ja',
+    with_genres: '16', // Animation genre
+    sort_by: 'vote_average.desc',
+    'vote_count.gte': 100, // Ensure quality ratings
+  });
+}
+
+// Get currently airing anime
+export async function getAiringAnime(page: number = 1): Promise<TMDBResponse<Anime>> {
+  return fetchFromTMDB<TMDBResponse<Anime>>('/discover/tv', {
+    page,
+    with_original_language: 'ja',
+    with_genres: '16',
+    'air_date.gte': new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    'air_date.lte': new Date().toISOString().split('T')[0],
+    sort_by: 'popularity.desc',
+  });
+}
+
+// Discover anime with filters
+export async function discoverAnime(
+  params: AnimeFilterParams = {}
+): Promise<TMDBResponse<Anime>> {
+  const { genre, year, sortBy = 'popularity.desc', page = 1 } = params;
+  
+  return fetchFromTMDB<TMDBResponse<Anime>>('/discover/tv', {
+    page,
+    with_original_language: 'ja',
+    with_genres: genre ? `16,${genre}` : '16', // Always include Animation
+    first_air_date_year: year,
+    sort_by: sortBy,
+  });
+}
+
+// Get anime details
+export async function getAnimeDetails(animeId: number): Promise<AnimeDetails> {
+  return fetchFromTMDB<AnimeDetails>(`/tv/${animeId}`);
+}
+
+// Get anime credits
+export async function getAnimeCredits(animeId: number): Promise<Credits> {
+  return fetchFromTMDB<Credits>(`/tv/${animeId}/credits`);
+}
+
+// Get anime recommendations
+export async function getAnimeRecommendations(
+  animeId: number,
+  page: number = 1
+): Promise<TMDBResponse<Anime>> {
+  const response = await fetchFromTMDB<TMDBResponse<TVShow>>(`/tv/${animeId}/recommendations`, { page });
+  const filteredResults = response.results.filter(
+    show => show.origin_country?.includes('JP') || show.original_language === 'ja'
+  );
+  return { ...response, results: filteredResults as Anime[] };
+}
+
+// Get similar anime
+export async function getSimilarAnime(
+  animeId: number,
+  page: number = 1
+): Promise<TMDBResponse<Anime>> {
+  const response = await fetchFromTMDB<TMDBResponse<TVShow>>(`/tv/${animeId}/similar`, { page });
+  const filteredResults = response.results.filter(
+    show => show.origin_country?.includes('JP') || show.original_language === 'ja'
+  );
+  return { ...response, results: filteredResults as Anime[] };
+}
+
+// Search anime
+export async function searchAnime(
+  query: string,
+  page: number = 1
+): Promise<TMDBResponse<Anime>> {
+  const response = await fetchFromTMDB<TMDBResponse<TVShow>>('/search/tv', {
+    query,
+    page,
+  });
+  const filteredResults = response.results.filter(
+    show => (show.origin_country?.includes('JP') || show.original_language === 'ja') && 
+            show.genre_ids?.includes(16)
+  );
+  return { ...response, results: filteredResults as Anime[] };
+}
+
+// ============================================
+// DRAKOR ENDPOINTS (Korean Drama)
+// ============================================
+
+// Get trending drakor (Korean TV shows)
+export async function getTrendingDrakor(
+  timeWindow: TimeWindow = 'week',
+  page: number = 1
+): Promise<TMDBResponse<Drakor>> {
+  // Use discover API with date filter for more reliable trending results
+  const dateOffset = timeWindow === 'day' ? 7 : 30; // Last 7 days for 'day', 30 days for 'week'
+  const dateFrom = new Date(Date.now() - dateOffset * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+  
+  return fetchFromTMDB<TMDBResponse<Drakor>>('/discover/tv', {
+    page,
+    with_original_language: 'ko',
+    sort_by: 'popularity.desc',
+    'first_air_date.gte': dateFrom,
+  });
+}
+
+// Get popular drakor using discover with Korean language filter
+export async function getPopularDrakor(page: number = 1): Promise<TMDBResponse<Drakor>> {
+  return fetchFromTMDB<TMDBResponse<Drakor>>('/discover/tv', {
+    page,
+    with_original_language: 'ko',
+    sort_by: 'popularity.desc',
+  });
+}
+
+// Get top rated drakor
+export async function getTopRatedDrakor(page: number = 1): Promise<TMDBResponse<Drakor>> {
+  return fetchFromTMDB<TMDBResponse<Drakor>>('/discover/tv', {
+    page,
+    with_original_language: 'ko',
+    sort_by: 'vote_average.desc',
+    'vote_count.gte': 50, // Ensure quality ratings
+  });
+}
+
+// Get currently airing drakor
+export async function getAiringDrakor(page: number = 1): Promise<TMDBResponse<Drakor>> {
+  return fetchFromTMDB<TMDBResponse<Drakor>>('/discover/tv', {
+    page,
+    with_original_language: 'ko',
+    'air_date.gte': new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    'air_date.lte': new Date().toISOString().split('T')[0],
+    sort_by: 'popularity.desc',
+  });
+}
+
+// Discover drakor with filters
+export async function discoverDrakor(
+  params: DrakorFilterParams = {}
+): Promise<TMDBResponse<Drakor>> {
+  const { genre, year, sortBy = 'popularity.desc', page = 1 } = params;
+  
+  return fetchFromTMDB<TMDBResponse<Drakor>>('/discover/tv', {
+    page,
+    with_original_language: 'ko',
+    with_genres: genre,
+    first_air_date_year: year,
+    sort_by: sortBy,
+  });
+}
+
+// Get drakor details
+export async function getDrakorDetails(drakorId: number): Promise<DrakorDetails> {
+  return fetchFromTMDB<DrakorDetails>(`/tv/${drakorId}`);
+}
+
+// Get drakor credits
+export async function getDrakorCredits(drakorId: number): Promise<Credits> {
+  return fetchFromTMDB<Credits>(`/tv/${drakorId}/credits`);
+}
+
+// Get drakor recommendations
+export async function getDrakorRecommendations(
+  drakorId: number,
+  page: number = 1
+): Promise<TMDBResponse<Drakor>> {
+  const response = await fetchFromTMDB<TMDBResponse<TVShow>>(`/tv/${drakorId}/recommendations`, { page });
+  const filteredResults = response.results.filter(
+    show => show.origin_country?.includes('KR') || show.original_language === 'ko'
+  );
+  return { ...response, results: filteredResults as Drakor[] };
+}
+
+// Get similar drakor
+export async function getSimilarDrakor(
+  drakorId: number,
+  page: number = 1
+): Promise<TMDBResponse<Drakor>> {
+  const response = await fetchFromTMDB<TMDBResponse<TVShow>>(`/tv/${drakorId}/similar`, { page });
+  const filteredResults = response.results.filter(
+    show => show.origin_country?.includes('KR') || show.original_language === 'ko'
+  );
+  return { ...response, results: filteredResults as Drakor[] };
+}
+
+// Search drakor
+export async function searchDrakor(
+  query: string,
+  page: number = 1
+): Promise<TMDBResponse<Drakor>> {
+  const response = await fetchFromTMDB<TMDBResponse<TVShow>>('/search/tv', {
+    query,
+    page,
+  });
+  const filteredResults = response.results.filter(
+    show => show.origin_country?.includes('KR') || show.original_language === 'ko'
+  );
+  return { ...response, results: filteredResults as Drakor[] };
 }
 
 // Export error class for use in error handling

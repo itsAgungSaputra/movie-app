@@ -9,6 +9,8 @@ const navLinks = [
   { href: '/trending', label: 'Trending' },
   { href: '/discover', label: 'Movies' },
   { href: '/tv-shows', label: 'TV Shows' },
+  { href: '/anime', label: 'Anime', accent: 'purple' },
+  { href: '/drakor', label: 'K-Drama', accent: 'amber' },
   { href: '/search', label: 'Search' },
 ];
 
@@ -36,22 +38,35 @@ export function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex md:items-center md:gap-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg ${
-                pathname === link.href
-                  ? 'text-white bg-white/10'
-                  : 'text-gray-400 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              {link.label}
-              {pathname === link.href && (
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-rose-500" />
-              )}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+            const accentClasses = {
+              purple: isActive ? 'text-purple-300 bg-purple-500/20' : 'hover:text-purple-300',
+              amber: isActive ? 'text-amber-300 bg-amber-500/20' : 'hover:text-amber-300',
+              default: isActive ? 'text-white bg-white/10' : 'hover:text-white hover:bg-white/5',
+            };
+            const accent = link.accent as keyof typeof accentClasses | undefined;
+            const activeClass = accent ? accentClasses[accent] : accentClasses.default;
+            
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg ${
+                  isActive
+                    ? activeClass
+                    : `text-gray-400 ${accent ? accentClasses[accent] : 'hover:text-white hover:bg-white/5'}`
+                }`}
+              >
+                {link.label}
+                {isActive && (
+                  <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
+                    accent === 'purple' ? 'bg-purple-500' : accent === 'amber' ? 'bg-amber-500' : 'bg-rose-500'
+                  }`} />
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -76,20 +91,30 @@ export function Header() {
       {isMobileMenuOpen && (
         <nav className="border-t border-white/10 md:hidden glass">
           <div className="space-y-1 px-4 py-3">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium transition-all ${
-                  pathname === link.href
-                    ? 'bg-rose-500/20 text-rose-400'
-                    : 'text-gray-300 hover:bg-white/5 hover:text-white'
-                }`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+              const accentClasses = {
+                purple: isActive ? 'bg-purple-500/20 text-purple-300' : 'hover:text-purple-300',
+                amber: isActive ? 'bg-amber-500/20 text-amber-300' : 'hover:text-amber-300',
+                default: isActive ? 'bg-rose-500/20 text-rose-400' : '',
+              };
+              const accent = link.accent as keyof typeof accentClasses | undefined;
+              
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium transition-all ${
+                    isActive
+                      ? accent ? accentClasses[accent] : accentClasses.default
+                      : `text-gray-300 hover:bg-white/5 ${accent ? accentClasses[accent] : 'hover:text-white'}`
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
         </nav>
       )}

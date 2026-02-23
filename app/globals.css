@@ -149,6 +149,18 @@ body {
   animation: gradient-shift 8s ease infinite;
 }
 
+/* Smooth pulse animation for decorative elements */
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 0.4;
+    transform: scale(1) translateZ(0);
+  }
+  50% { 
+    opacity: 0.6;
+    transform: scale(1.05) translateZ(0);
+  }
+}
+
 /* Skeleton loading animation */
 @keyframes shimmer {
   0% { background-position: -200% 0; }
