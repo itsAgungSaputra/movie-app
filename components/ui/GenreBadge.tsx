@@ -7,7 +7,7 @@ interface GenreBadgeProps {
 }
 
 export function GenreBadge({ genre, onClick, isActive = false }: GenreBadgeProps) {
-  const baseClasses = 'inline-block rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200';
+  const baseClasses = 'inline-block rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-300 ease-out';
   
   if (onClick) {
     return (
@@ -15,8 +15,8 @@ export function GenreBadge({ genre, onClick, isActive = false }: GenreBadgeProps
         onClick={onClick}
         className={`${baseClasses} ${
           isActive
-            ? 'bg-rose-500 text-white shadow-lg shadow-rose-500/25'
-            : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
+            ? 'bg-rose-500 text-white shadow-lg shadow-rose-500/25 ring-1 ring-rose-500/50'
+            : 'bg-white/[0.06] text-gray-400 ring-1 ring-white/[0.08] hover:bg-white/[0.1] hover:text-white hover:ring-white/[0.15]'
         }`}
       >
         {genre.name}
@@ -25,7 +25,7 @@ export function GenreBadge({ genre, onClick, isActive = false }: GenreBadgeProps
   }
 
   return (
-    <span className={`${baseClasses} bg-white/10 text-gray-300`}>
+    <span className={`${baseClasses} bg-white/[0.06] text-gray-400 ring-1 ring-white/[0.08]`}>
       {genre.name}
     </span>
   );

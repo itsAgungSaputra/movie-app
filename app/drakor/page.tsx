@@ -15,7 +15,7 @@ export default function DrakorPage() {
   const { data: airingData, isLoading: airingLoading } = useAiringDrakor(1);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen -mt-16 lg:-mt-18">
       {/* Page Header - elegant minimal */}
       <header className="relative overflow-hidden bg-linear-to-b from-[#0f0f14] to-transparent pb-16 pt-32">
         <div className="container mx-auto px-4 lg:px-6 relative">

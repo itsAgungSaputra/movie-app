@@ -53,7 +53,7 @@ export default async function TVShowPage({ params }: TVShowPageProps) {
     ]);
 
     return (
-      <article>
+      <article className="-mt-16 lg:-mt-18">
         {/* Backdrop Section */}
         <section className="relative h-[60vh] min-h-125 w-full overflow-hidden md:h-[70vh]">
           <div className="absolute inset-0">

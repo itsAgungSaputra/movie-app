@@ -28,15 +28,15 @@ export function EmptyState({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl bg-white/5 p-16 text-center backdrop-blur-sm ring-1 ring-white/10">
+    <div className="flex flex-col items-center justify-center rounded-2xl bg-white/[0.03] p-16 text-center ring-1 ring-white/[0.06]">
       <div className="relative mb-6">
-        <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10 text-gray-500">
+        <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-white/[0.04] ring-1 ring-white/[0.08] text-gray-500">
           {icons[icon]}
         </div>
-        <div className="absolute inset-0 blur-xl bg-gray-500/10 -z-10" />
+        <div className="absolute inset-0 blur-2xl bg-rose-500/5 -z-10" />
       </div>
       <h3 className="mb-2 text-xl font-semibold text-white">{title}</h3>
-      <p className="text-gray-400 max-w-sm leading-relaxed">{message}</p>
+      <p className="text-gray-500 max-w-sm leading-relaxed">{message}</p>
     </div>
   );
 }

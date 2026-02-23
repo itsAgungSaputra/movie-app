@@ -2,7 +2,7 @@ import { HorizontalCardsSkeleton } from '@/components/ui';
 
 export default function HomeLoading() {
   return (
-    <>
+    <div className="-mt-16 lg:-mt-18">
       {/* Hero skeleton with shimmer */}
       <div className="relative h-[70vh] min-h-100 md:h-[80vh] md:min-h-140 w-full overflow-hidden">
         <div className="absolute inset-0 skeleton-shimmer" />
@@ -44,6 +44,6 @@ export default function HomeLoading() {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

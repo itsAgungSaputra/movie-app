@@ -54,7 +54,7 @@ export default async function AnimeDetailPage({ params }: AnimePageProps) {
     ]);
 
     return (
-      <article className="min-h-screen">
+      <article className="min-h-screen -mt-16 lg:-mt-18">
         {/* Backdrop Section with anime-style gradients */}
         <section className="relative h-[65vh] min-h-125 w-full overflow-hidden md:h-[75vh]">
           <div className="absolute inset-0">

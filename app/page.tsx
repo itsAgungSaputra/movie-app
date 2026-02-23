@@ -15,7 +15,11 @@ export default async function HomePage() {
 
   return (
     <>
-      {heroMovies.length > 0 && <HeroCarousel movies={heroMovies} />}
+      {heroMovies.length > 0 && (
+        <div className="-mt-16 lg:-mt-18">
+          <HeroCarousel movies={heroMovies} />
+        </div>
+      )}
       
       <div className="container mx-auto px-4">
         <Suspense fallback={<HomePageSkeleton />}>

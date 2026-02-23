@@ -22,27 +22,31 @@ export function TVShowCard({ show, priority = false }: TVShowCardProps) {
           alt={show.name}
           fill
           sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
-          className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-75"
+          className="object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-108"
+          style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
           priority={priority}
         />
         
         {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-100" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/10 to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
         
         {/* TV badge */}
-        <div className="absolute left-3 top-3">
-          <span className="rounded-lg bg-blue-500/90 px-2 py-1 text-[10px] font-bold text-white backdrop-blur-sm">
+        <div className="absolute left-2.5 top-2.5">
+          <span className="rounded-lg bg-blue-500/90 px-2 py-1 text-[10px] font-bold text-white shadow-sm shadow-blue-500/30 backdrop-blur-sm">
             TV
           </span>
         </div>
         
-        {/* Rating badge */}
-        <div className="absolute right-3 top-3 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 translate-y-2">
+        {/* Rating badge - always visible */}
+        <div className="absolute right-2.5 top-2.5">
           <RatingBadge rating={show.vote_average} size="sm" />
         </div>
         
         {/* Bottom info overlay */}
-        <div className="absolute inset-x-0 bottom-0 p-4 translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+        <div
+          className="absolute inset-x-0 bottom-0 p-3.5 translate-y-2 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100"
+          style={{ transform: 'translateZ(0)' }}
+        >
           <h3 className="line-clamp-2 text-sm font-semibold text-white drop-shadow-lg">
             {show.name}
           </h3>
@@ -53,8 +57,8 @@ export function TVShowCard({ show, priority = false }: TVShowCardProps) {
       </div>
       
       {/* Default title below card */}
-      <div className="mt-3 space-y-1 px-1">
-        <h3 className="line-clamp-2 text-sm font-medium text-white/90 transition-colors group-hover:text-rose-400">
+      <div className="mt-3 space-y-1 px-0.5">
+        <h3 className="line-clamp-2 text-sm font-medium text-white/90 transition-colors duration-300 group-hover:text-rose-400">
           {show.name}
         </h3>
         <p className="text-xs text-gray-500">
@@ -74,7 +78,7 @@ export function TVShowCardCompact({ show, priority = false }: TVShowCardCompactP
   return (
     <Link
       href={`/tv/${show.id}`}
-      className="group relative flex gap-4 rounded-xl p-3 transition-all duration-300 hover:bg-white/5 glass-card"
+      className="group relative flex gap-4 rounded-xl p-3 ring-1 ring-white/6 transition-all duration-300 ease-out hover:bg-white/4 hover:ring-white/10"
     >
       <div className="relative h-28 w-20 shrink-0 overflow-hidden rounded-lg bg-[#1a1a24]">
         <Image
@@ -82,7 +86,8 @@ export function TVShowCardCompact({ show, priority = false }: TVShowCardCompactP
           alt={show.name}
           fill
           sizes="80px"
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          className="object-cover transition-transform duration-500 ease-out will-change-transform group-hover:scale-105"
+          style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
           priority={priority}
         />
       </div>

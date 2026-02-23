@@ -58,49 +58,49 @@ export function HorizontalScroll({ children, className = '' }: HorizontalScrollP
       {/* Left scroll button */}
       <button
         onClick={() => scroll('left')}
-        className={`absolute left-0 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-md border border-white/10 shadow-lg shadow-black/20 transition-all duration-300 ${
+        className={`absolute left-0 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-[#0a0a0f]/80 text-white backdrop-blur-xl ring-1 ring-white/10 shadow-xl shadow-black/40 transition-all duration-400 ease-out ${
           canScrollLeft 
-            ? 'opacity-0 group-hover/scroll:opacity-100 hover:bg-black/80 hover:scale-110 hover:border-white/20' 
+            ? 'opacity-0 group-hover/scroll:opacity-100 hover:bg-rose-500/20 hover:ring-rose-500/30 hover:scale-110 hover:text-rose-400' 
             : 'opacity-0 pointer-events-none'
         }`}
         style={{
-          transform: canScrollLeft ? 'translateY(-50%) translateX(-20%)' : 'translateY(-50%) translateX(-50%)',
+          transform: canScrollLeft ? 'translateY(-50%) translateX(-30%)' : 'translateY(-50%) translateX(-50%)',
         }}
         aria-label="Scroll left"
       >
-        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
 
       {/* Right scroll button */}
       <button
         onClick={() => scroll('right')}
-        className={`absolute right-0 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-md border border-white/10 shadow-lg shadow-black/20 transition-all duration-300 ${
+        className={`absolute right-0 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-[#0a0a0f]/80 text-white backdrop-blur-xl ring-1 ring-white/10 shadow-xl shadow-black/40 transition-all duration-400 ease-out ${
           canScrollRight 
-            ? 'opacity-0 group-hover/scroll:opacity-100 hover:bg-black/80 hover:scale-110 hover:border-white/20' 
+            ? 'opacity-0 group-hover/scroll:opacity-100 hover:bg-rose-500/20 hover:ring-rose-500/30 hover:scale-110 hover:text-rose-400' 
             : 'opacity-0 pointer-events-none'
         }`}
         style={{
-          transform: canScrollRight ? 'translateY(-50%) translateX(20%)' : 'translateY(-50%) translateX(50%)',
+          transform: canScrollRight ? 'translateY(-50%) translateX(30%)' : 'translateY(-50%) translateX(50%)',
         }}
         aria-label="Scroll right"
       >
-        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
       </button>
 
       {/* Left fade gradient */}
       <div 
-        className={`absolute left-0 top-0 bottom-4 w-16 bg-linear-to-r from-[#0a0a0f] to-transparent z-10 pointer-events-none transition-opacity duration-300 ${
+        className={`absolute left-0 top-0 bottom-4 w-20 bg-linear-to-r from-[#0a0a0f] via-[#0a0a0f]/60 to-transparent z-10 pointer-events-none transition-opacity duration-400 ${
           canScrollLeft ? 'opacity-100' : 'opacity-0'
         }`}
       />
 
       {/* Right fade gradient */}
       <div 
-        className={`absolute right-0 top-0 bottom-4 w-16 bg-linear-to-l from-[#0a0a0f] to-transparent z-10 pointer-events-none transition-opacity duration-300 ${
+        className={`absolute right-0 top-0 bottom-4 w-20 bg-linear-to-l from-[#0a0a0f] via-[#0a0a0f]/60 to-transparent z-10 pointer-events-none transition-opacity duration-400 ${
           canScrollRight ? 'opacity-100' : 'opacity-0'
         }`}
       />

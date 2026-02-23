@@ -54,7 +54,7 @@ export default async function DrakorDetailPage({ params }: DrakorPageProps) {
     ]);
 
     return (
-      <article className="min-h-screen">
+      <article className="min-h-screen -mt-16 lg:-mt-18">
         {/* Backdrop Section - elegant minimal */}
         <section className="relative h-[60vh] min-h-120 w-full overflow-hidden md:h-[70vh]">
           <div className="absolute inset-0">

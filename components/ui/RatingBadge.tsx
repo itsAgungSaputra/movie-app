@@ -12,9 +12,9 @@ export function RatingBadge({ rating, size = 'md' }: RatingBadgeProps) {
   const numericRating = parseFloat(ratingValue);
   
   const getColor = () => {
-    if (numericRating >= 7) return 'bg-emerald-500/90 text-emerald-50 shadow-emerald-500/30';
-    if (numericRating >= 5) return 'bg-amber-500/90 text-amber-50 shadow-amber-500/30';
-    return 'bg-rose-500/90 text-rose-50 shadow-rose-500/30';
+    if (numericRating >= 7) return 'bg-emerald-500/90 text-emerald-50 shadow-emerald-500/25 ring-1 ring-emerald-400/20';
+    if (numericRating >= 5) return 'bg-amber-500/90 text-amber-50 shadow-amber-500/25 ring-1 ring-amber-400/20';
+    return 'bg-rose-500/90 text-rose-50 shadow-rose-500/25 ring-1 ring-rose-400/20';
   };
 
   const sizeClasses = {

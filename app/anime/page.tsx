@@ -17,7 +17,7 @@ export default function AnimePage() {
   const { data: airingData, isLoading: airingLoading } = useAiringAnime(1);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen -mt-16 lg:-mt-18">
       {/* Page Header */}
       <header className="relative overflow-hidden bg-linear-to-b from-purple-900/20 to-transparent pb-16 pt-32">
         {/* Decorative elements */}
